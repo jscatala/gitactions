@@ -1,0 +1,45 @@
+#creates a workflow that lint, test, and build
+name: Python workflow
+
+on:
+  push
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: install deps
+        run: pip install --no-cache -r requirements.txt
+
+      - name: Flake8
+        run: flake8 *.py
+
+      - name: Black
+        run: black --check *.py
+
+  test:
+    runs-on: ubuntu-latest
+    needs: validate
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: install deps
+        run: pip install --no-cache -r requirements.txt
+
+      - name: Run tests
+        run: pytest
+
+  build:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: install deps
+        run: echo "Build"
+
+
+
+
