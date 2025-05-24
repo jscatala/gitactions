@@ -11,12 +11,15 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: install deps
-        run: pip install --no-cache -r services/cities/requirements.txt
+        working-directory: ./services/cities
+        run: pip install --no-cache -r requirements.txt
 
       - name: Flake8
+        working-directory: ./services/cities
         run: flake8 *.py
 
       - name: Black
+        working-directory: ./services/cities
         run: black --check *.py
 
   test:
@@ -26,9 +29,11 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: install deps
-        run: pip install --no-cache -r services/cities/requirements.txt
+        working-directory: ./services/cities
+        run: pip install --no-cache -r requirements.txt
 
       - name: Run tests
+        working-directory: ./services/cities
         run: pytest
 
   build:
@@ -38,6 +43,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: install deps
+        working-directory: ./services/cities
         run: echo "Build"
 
 
