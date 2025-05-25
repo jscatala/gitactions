@@ -1,4 +1,3 @@
-#creates a workflow that lint, test, and build
 name: Python workflow
 
 on:
@@ -13,6 +12,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      - name: Get pip cache dir
+        id: pip-cache
+        shell: bash
+        run: |
+          echo "dir=$(pip cache dir)" >> $GITHUB_OUTPUT
+
+      - name: Caches dependencies
+        uses: actions/cache@v4    # https://github.com/actions/cache
+        with:
+          path: ${{ steps.pip-cache.outputs.dir }} # ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
 
       - name: install deps
         working-directory: ./services/cities
