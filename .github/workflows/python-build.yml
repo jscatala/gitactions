@@ -66,9 +66,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
-      - uses: actions/download-artifacts@v4
-        with:
-          name: pytest-report
+      # - uses: actions/download-artifacts@v4
+      #   with:
+      #     name: pytest-report
       
       - name: Show contents
         run: |
