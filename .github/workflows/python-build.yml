@@ -2,10 +2,11 @@
 name: Python workflow
 
 on:
+  workflow_dispatch: 
+
   push:
     paths:
       - 'services/cities/**'
-
 
 jobs:
   validate:
@@ -43,7 +44,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: pytest-report
-          path: report.html
+          path: ./services/cities/report.html
 
   build:
     runs-on: ubuntu-latest
