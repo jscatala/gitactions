@@ -37,7 +37,13 @@ jobs:
 
       - name: Run tests
         working-directory: ./services/cities
-        run: pytest
+        run: pytest --html=report.html
+      
+      - name: Upload timestime file
+        uses: actions/upload-artifact@v4
+        with:
+          name: pytest-report
+          path: report.html
 
   build:
     runs-on: ubuntu-latest
