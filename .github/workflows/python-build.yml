@@ -31,6 +31,7 @@ jobs:
     needs: validate
     outputs:
       hashed-file-name: ${{ steps.encoded.outputs.hash }}
+      matrix: ${{ steps.matrix.outputs.value }}
     steps:
       - uses: actions/checkout@v4
 
@@ -58,6 +59,12 @@ jobs:
             ./services/cities/report.html
             ./services/cities/assets/**
             ./services/cities/hashed_data.txt
+        
+      - id: matrix
+        run: |
+          echo "value=[\"a\", \"b\", \"c\"]" >> $GITHUB_OUTPUT
+      - run: |
+          echo "${{ steps.matrix.outputs.value }}"
       
 
   build:
@@ -84,3 +91,13 @@ jobs:
       - name: Build
         working-directory: ./services/cities
         run: echo "Build"
+    
+  bootstrap:
+    needs: test
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        value: ${{fromJSON(needs.test.outputs.matrix)}}
+    steps:
+      - run: |
+          echo "${{ matrix.value }}"
