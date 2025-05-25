@@ -66,8 +66,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
-      - name: Get build artifacts
-        uses: actions/download-artifacts@v4
+      - uses: actions/download-artifacts@v4
         with:
           name: pytest-report
       
