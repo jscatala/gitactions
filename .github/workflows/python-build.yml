@@ -65,11 +65,6 @@ jobs:
     needs: test
     steps:
       - uses: actions/checkout@v4
-
-      - name: Outputs data
-        run: |
-          echo "context needs is based on dependancy jobs"
-          echo "${{ needs.test.outputs.hashed-file-name }}"
       
       - name: Get build artifacts
         uses: actions/download-artifacts@v4
@@ -80,6 +75,11 @@ jobs:
         run: |
           ls -a
           pwd
+
+      - name: Outputs data
+        run: |
+          echo "context needs is based on dependancy jobs"
+          echo "${{ needs.test.outputs.hashed-file-name }}"
       
       - name: Build
         working-directory: ./services/cities
