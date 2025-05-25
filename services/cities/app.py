@@ -42,6 +42,16 @@ def main():
     return jsonify(message="Hello, Flask!")
 
 
+@app.route("/version")
+def version():
+    data = {
+        'tag': 'v0.1',
+        'build': 'some datetime'
+        }
+
+    return jsonify(data, status=200, mimetype='application/json')
+
+
 @app.route("/capital", methods=["GET"])
 def get_capital_info():
     # Get the city parameter from the request
