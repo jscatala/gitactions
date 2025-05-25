@@ -44,12 +44,9 @@ def main():
 
 @app.route("/version")
 def version():
-    data = {
-        'tag': 'v0.1',
-        'build': 'some datetime'
-        }
+    data = {"tag": "v0.1", "build": "some datetime"}
 
-    return jsonify(data, status=200, mimetype='application/json')
+    return jsonify(data, status=200, mimetype="application/json")
 
 
 @app.route("/capital", methods=["GET"])
