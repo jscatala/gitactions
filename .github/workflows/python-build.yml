@@ -6,9 +6,16 @@ on:
   push:
     paths:
       - 'services/cities/**'
+  
+env:
+  DB_NAME: somedb
 
 jobs:
   validate:
+    env:
+      DB_NAME: someother # I can rewrite the previous value
+      NEW_CONNECTION: somethingelse
+
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -114,6 +121,14 @@ jobs:
         run: |
           echo "context needs is based on dependancy jobs"
           echo "${{ needs.test.outputs.hashed-file-name }}"
+
+      - name: Output env vars
+        run: |
+          echo "DB_NAME : ${{ env.DB_NAME }}"
+
+      - name: Get Changes
+        run: |
+          git diff-tree --no-commit-id --name-only -r ${{ github.sha }}
       
       - name: Build
         working-directory: ./services/cities
