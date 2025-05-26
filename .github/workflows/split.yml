@@ -45,4 +45,5 @@ jobs:
                 value: ${{ fromJSON(needs.show-diff.outputs.service-matrix) }}
         steps:
             - run: |
+                echo "should match the service: "
                 echo "${{ matrix.value }}"
