@@ -22,7 +22,7 @@ jobs:
             - name: Checkout code
               uses: actions/checkout@v4
               with:
-                fetch-depth: 2
+                fetch-depth: 0 # Must be changed to 2 once test finish
 
             - name: Show files changed in the commit
               id: service-matrix
