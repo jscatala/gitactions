@@ -33,3 +33,13 @@ jobs:
             
             - name: Output
               run: echo "${{ steps.service-matrix.outputs.value }}"
+        
+     split-build:
+        runs-on: ubuntu-latest
+        needs: show-diff
+        strategy:
+            matrix:
+                value: ${{fromJSON(needs.show-diff.outputs.service-matrix)}}
+        steps:
+            - run: |
+                echo "${{ matrix.value }}"
