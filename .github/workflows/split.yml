@@ -32,4 +32,4 @@ jobs:
                 echo "value=$services" >> $GITHUB_OUTPUT
             
             - name: Output
-              run: echo "${{ steps.matrix.outputs.value }}"
+              run: echo "${{ steps.service-matrix.outputs.value }}"
