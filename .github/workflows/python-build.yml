@@ -145,10 +145,10 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 3
 
       - name: Show files changed in the commit
         run: |
           echo "Changed files in commit $GITHUB_SHA:"
-          git diff-tree --no-commit-id --name-only -r $GITHUB_SHA >> files.txt
-          ls
-          cat files.txt
+          git diff-tree --no-commit-id --name-only -r $GITHUB_SHA
