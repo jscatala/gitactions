@@ -125,10 +125,6 @@ jobs:
       - name: Output env vars
         run: |
           echo "DB_NAME : ${{ env.DB_NAME }}"
-
-      - name: Get Changes
-        run: |
-          echo "$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }})"
       
       - name: Build
         working-directory: ./services/cities
@@ -143,3 +139,14 @@ jobs:
     steps:
       - run: |
           echo "${{ matrix.value }}"
+
+  show-diff:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Show files changed in the commit
+        run: |
+          echo "Changed files in commit $GITHUB_SHA:"
+          git diff-tree --no-commit-id --name-only -r $GITHUB_SHA
