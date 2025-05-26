@@ -30,7 +30,7 @@ jobs:
               id: service-matrix
               run: |
                 echo "Changed files in commit ${{ inputs.sha }}:" 
-                services=( $(git diff-tree --no-commit-id --name-only -r ${{ inputs.sha }} | grep -E "^services/*" | cut -d'/' -f2 | uniq) )
+                services=$(git diff-tree --no-commit-id --name-only -r ${{ inputs.sha }} | grep -E "^services/*" | cut -d'/' -f2 | uniq | jq -R -s -c 'split("\n")[:-1]')
                 echo "value=$services" >> $GITHUB_OUTPUT
             
             - name: Output
