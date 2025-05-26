@@ -1,0 +1,25 @@
+name: Go workflow
+
+on:
+  workflow_dispatch: 
+
+  push:
+    paths:
+      - 'services/Hello-world/**'
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        container:
+            image: golang:1.24-alpine
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+            - name: Build go
+              working-directory: ./services/Hello-world
+              run: go build -o /bin/hello ./hello-world.go
+            - name: Upload artifact
+              uses: actions/upload-artifact@v4
+              with:
+                name: hello-go
+                path: ./services/Hello-world/hello-world.go
