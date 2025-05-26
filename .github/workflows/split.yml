@@ -18,6 +18,8 @@ jobs:
     show-diff:
         if: ${{ inputs.build_all }}
         runs-on: ubuntu-latest
+        outputs:
+            service-matrix: ${{steps.service-matrix.outputs.value}}
         steps:
             - name: Checkout code
               uses: actions/checkout@v4
@@ -39,7 +41,7 @@ jobs:
         needs: show-diff
         strategy:
             matrix:
-                value: ${{fromJSON(needs.show-diff.outputs.service-matrix)}}
+                value: ${{ fromJSON(needs.show-diff.outputs.service-matrix) }}
         steps:
             - run: |
                 echo "${{ matrix.value }}"
