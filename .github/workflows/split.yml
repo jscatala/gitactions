@@ -34,7 +34,7 @@ jobs:
             - name: Output
               run: echo "${{ steps.service-matrix.outputs.value }}"
         
-     split-build:
+    split-build:
         runs-on: ubuntu-latest
         needs: show-diff
         strategy:
