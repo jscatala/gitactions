@@ -1,0 +1,35 @@
+name: Build all or based on changes
+
+on:
+    workflow-dispatch:
+        inputs:
+            build-all:
+                description: 'Build all services?'
+                required: true
+                type: boolean
+            
+            sha:
+                description: 'Sha to test'
+                required: true
+                type: string
+
+
+jobs:
+    show-diff:
+        if: inputs.build-all
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+              with:
+                fetch-depth: 2
+
+            - name: Show files changed in the commit
+              id: service-matrix
+              run: |
+                echo "Changed files in commit $GITHUB_SHA:"
+                services= ( $(git diff-tree --no-commit-id --name-only -r ${{ inputs.sha }}}} | grep -E "^services/*" | cut -d'/' -f1,2 | sed 's/^/\//' | uniq))
+                echo "value=$services" >> $GITHUB_OUTPUT
+            
+            - name: output data
+              echo "${{ steps.matrix.outputs.value }}"
