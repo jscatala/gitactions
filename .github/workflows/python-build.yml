@@ -149,4 +149,6 @@ jobs:
       - name: Show files changed in the commit
         run: |
           echo "Changed files in commit $GITHUB_SHA:"
-          git diff-tree --no-commit-id --name-only -r $GITHUB_SHA
+          git diff-tree --no-commit-id --name-only -r $GITHUB_SHA >> files.txt
+          ls
+          cat files.txt
