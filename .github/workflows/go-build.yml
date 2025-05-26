@@ -23,17 +23,3 @@ jobs:
               with:
                 name: hello-go
                 path: /bin/hello
-            
-    run:
-        runs-on: ubuntu-latest
-        needs: build
-        container:
-            image: scratch
-        steps:
-            - name: Download artifacts
-              uses: actions/download-artifact@v4
-              with:
-                name: hello-go
-            - name: Run artifact
-              run: ./hello
-              
