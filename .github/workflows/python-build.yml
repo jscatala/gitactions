@@ -128,7 +128,8 @@ jobs:
 
       - name: Get Changes
         run: |
-          git diff-tree --no-commit-id --name-only -r ${{ github.sha }}
+          FILES=$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }})
+          echo $FILES
       
       - name: Build
         working-directory: ./services/cities
