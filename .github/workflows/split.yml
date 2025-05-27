@@ -32,7 +32,7 @@ jobs:
               run: |
                 echo "Changed files in commit ${{ inputs.sha }}:" 
                 services=$(git diff-tree --no-commit-id --name-only -r ${{ inputs.sha }} | grep -E "^services/*" | cut -d'/' -f2 | uniq | jq -R -s -c 'split("\n")[:-1]')
-                all-services=$(find '$GITHUB_WORKSPACE/services/' -type d -mindepth=1 -max-depth=1 | cut -d'/' -f2 | uniq | jq -R -s -c 'split("\n")[:-1]')
+                all-services=$(find '$GITHUB_WORKSPACE/services/' -type d -mindepth 1 -maxdepth 1 | cut -d'/' -f2 | uniq | jq -R -s -c 'split("\n")[:-1]')
                 excluded=$(jq -n '{ all-services: $all-services, exclude: $services } | .all-services - .services' )
                 echo "value=$services" >> $GITHUB_OUTPUT
                 echo "excluded=$excluded" >> $GITHUB_OUTPUT
