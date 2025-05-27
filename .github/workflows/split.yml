@@ -20,6 +20,7 @@ jobs:
         runs-on: ubuntu-latest
         outputs:
             service-matrix: ${{steps.service-matrix.outputs.value}}
+            excluded-services: ${{steps.service-matrix.outputs.excluded}}
         steps:
             - name: Checkout code
               uses: actions/checkout@v4
@@ -31,10 +32,16 @@ jobs:
               run: |
                 echo "Changed files in commit ${{ inputs.sha }}:" 
                 services=$(git diff-tree --no-commit-id --name-only -r ${{ inputs.sha }} | grep -E "^services/*" | cut -d'/' -f2 | uniq | jq -R -s -c 'split("\n")[:-1]')
+                all-services=$(find '$GITHUB_WORKSPACE/services/' -type d -mindepth=1 -max-depth=1 | cut -d'/' -f2 | uniq | jq -R -s -c 'split("\n")[:-1]')
+                excluded=$(jq -n '{ all-services: $all-services, exclude: $services } | .all-services - .services' )
                 echo "value=$services" >> $GITHUB_OUTPUT
+                echo "excluded=$excluded" >> $GITHUB_OUTPUT
             
             - name: Output
-              run: echo "${{ steps.service-matrix.outputs.value }}"
+              run: |
+                echo "${{ steps.service-matrix.outputs.value }}"
+                echo "${{ steps.service-matrix.outputs.excluded }}"
+            
         
     split-build:
         if: needs.show-diff.outputs.service-matrix != '[]'
