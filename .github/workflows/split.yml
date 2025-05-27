@@ -33,7 +33,7 @@ jobs:
                 echo "Changed files in commit ${{ inputs.sha }}:" 
                 services=$(git diff-tree --no-commit-id --name-only -r ${{ inputs.sha }} | grep -E "^services/*" | cut -d'/' -f2 | uniq | jq -R -s -c 'split("\n")[:-1]')
                 allfolder=$(find './services/' -type d -mindepth 1 -maxdepth 1 -exec basename {} \; | jq -R -s -c 'split("\n")[:-1]')
-                excluded=$(jq --argjson s "$allfolder" --argjson e "$services" '$s-$e' <<< '{}' )
+                excluded=$(jq -c --argjson s "$allfolder" --argjson e "$services" '$s-$e' <<< '{}' )
                 echo "value=$services" >> $GITHUB_OUTPUT
                 echo "excluded=$excluded" >> $GITHUB_OUTPUT
             
