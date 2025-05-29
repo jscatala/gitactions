@@ -27,7 +27,7 @@ jobs:
       runs-on: ubuntu-latest
       steps:
         - name: Read env file
-          working-directory: .github/workflows
+          working-directory: ./Resources
           run: |
             source inputs.env
             echo "SHA=$WF_SHA" >> $GITHUB_ENV
