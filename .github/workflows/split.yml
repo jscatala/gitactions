@@ -18,8 +18,8 @@ on:
                 type: string
 
 env:
-  BUILD_ALL: ${{ inputs.build_all }}
-  SHA: ${{ inputs.sha}}
+  BUILD_ALL: ${{ inputs.build_all || true }}
+  SHA: ${{ inputs.sha || github.sha }}
 
 jobs:
     set-new-envs:
