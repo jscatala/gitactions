@@ -33,7 +33,7 @@ jobs:
             echo "BUILD_ALL=$WF_BUILD_ALL" >> $GITHUB_ENV
 
     show-diff:
-        if: env.BUILD_ALL
+        # if: env.BUILD_ALL
         runs-on: ubuntu-latest
         outputs:
             service-matrix: ${{steps.service-matrix.outputs.value}}
