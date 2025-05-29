@@ -29,7 +29,8 @@ jobs:
         - name: Read env file
           run: |
             source ./github/workflows/inputs.env
-            echo "ENV=$ENV"
+            echo "SHA=$WF_SHA" >> $GITHUB_ENV
+            echo "BUILD_ALL=$WF_BUILD_ALL" >> $GITHUB_ENV
 
     show-diff:
         if: ${{ env.BUILD_ALL }}
