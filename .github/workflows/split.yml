@@ -23,7 +23,6 @@ env:
 
 jobs:
     set-new-envs:
-      if: github.event_name == 'push'
       runs-on: ubuntu-latest
       steps:
         - name: Checkout code
@@ -34,12 +33,19 @@ jobs:
         - name: Read env file
           working-directory: ./.github/workflows
           run: |
-            source inputs.env
-            echo "SHA=$WF_SHA" >> $GITHUB_ENV
-            echo "BUILD_ALL=$WF_BUILD_ALL" >> $GITHUB_ENV
+            if [ "$GITHUB_EVENT_NAME" = "push" ]; then
+              echo "SETUP from env file"
+              source inputs.env
+              echo "SHA=$WF_SHA" >> $GITHUB_ENV
+              echo "BUILD_ALL=$WF_BUILD_ALL" >> $GITHUB_ENV
+            else:
+              echo "SETUP from input... No change"
+            fi
 
     show-diff:
-        # if: env.BUILD_ALL
+        env:
+          CONTINUE: ${ env.BUILD_ALL }}
+        if: env.CONTINUE
         runs-on: ubuntu-latest
         outputs:
             service-matrix: ${{steps.service-matrix.outputs.value}}
