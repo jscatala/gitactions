@@ -27,8 +27,9 @@ jobs:
       runs-on: ubuntu-latest
       steps:
         - name: Read env file
+          working-directory: .github/workflows
           run: |
-            source ./.github/workflows/inputs.env
+            source inputs.env
             echo "SHA=$WF_SHA" >> $GITHUB_ENV
             echo "BUILD_ALL=$WF_BUILD_ALL" >> $GITHUB_ENV
 
