@@ -26,8 +26,13 @@ jobs:
       if: github.event_name == 'push'
       runs-on: ubuntu-latest
       steps:
+        - name: Checkout code
+          uses: actions/checkout@v4
+          with:
+            fetch-depth: 0 # Must be changed to 2 once test finish
+
         - name: Read env file
-          working-directory: ./Resources
+          working-directory: ./.github/workflows
           run: |
             source inputs.env
             echo "SHA=$WF_SHA" >> $GITHUB_ENV
