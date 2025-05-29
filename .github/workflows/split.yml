@@ -1,6 +1,10 @@
 name: Build all or based on changes
 
 on:
+    push:
+      branches:
+        - "feature/test"
+
     workflow_dispatch:
         inputs:
             build_all:
@@ -13,10 +17,22 @@ on:
                 required: true
                 type: string
 
+env:
+  BUILD_ALL: ${{ inputs.build_all }}
+  SHA: ${{ inputs.sha}}
 
 jobs:
+    set-new-envs:
+      if: github.event_name == 'push'
+      runs-on: ubuntu-latest
+      steps:
+        - name: Read env file
+          run: |
+            source ./github/workflows/inputs.env
+            echo "ENV=$ENV"
+
     show-diff:
-        if: ${{ inputs.build_all }}
+        if: ${{ env.BUILD_ALL }}
         runs-on: ubuntu-latest
         outputs:
             service-matrix: ${{steps.service-matrix.outputs.value}}
@@ -30,8 +46,8 @@ jobs:
             - name: Show files changed in the commit
               id: service-matrix
               run: |
-                echo "Changed files in commit ${{ inputs.sha }}:" 
-                services=$(git diff-tree --no-commit-id --name-only -r ${{ inputs.sha }} | grep -E "^services/*" | cut -d'/' -f2 | uniq | jq -R -s -c 'split("\n")[:-1]')
+                echo "Changed files in commit ${{ env.SHA}}:" 
+                services=$(git diff-tree --no-commit-id --name-only -r ${{ env.SHA }} | grep -E "^services/*" | cut -d'/' -f2 | uniq | jq -R -s -c 'split("\n")[:-1]')
                 allfolder=$(find './services/' -type d -mindepth 1 -maxdepth 1 -exec basename {} \; | jq -R -s -c 'split("\n")[:-1]')
                 excluded=$(jq -c --argjson s "$allfolder" --argjson e "$services" '$s-$e' <<< '{}' )
                 echo "value=$services" >> $GITHUB_OUTPUT
