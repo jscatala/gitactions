@@ -36,6 +36,7 @@ jobs:
           working-directory: ./.github/workflows
           id: setup
           run: |
+            echo "${{ toJSON(env) }}"
             if [ "$GITHUB_EVENT_NAME" = "push" ]; then
               echo "SETUP from env file"
               source inputs.env
