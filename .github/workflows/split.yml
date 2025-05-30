@@ -50,6 +50,12 @@ jobs:
             fi
             echo "${{ toJSON(env) }}"
 
+        - name: Echo env
+          run: |
+            set -a
+            echo "$env"
+            set +a
+
     show-diff:
         needs: set-new-envs
         if: needs.set-new-envs.outputs.continue
