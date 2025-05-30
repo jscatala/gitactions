@@ -42,7 +42,7 @@ jobs:
               echo "SHA=$WF_SHA" >> $GITHUB_ENV
               echo "BUILD_ALL=$WF_BUILD_ALL" >> $GITHUB_ENV
               echo "BUILD_ALL=$WF_BUILD_ALL" >> $GITHUB_OUTPUT
-            else:
+            else
               echo "SETUP from input... No change"
               echo "BUILD_ALL=$env.BUILD_ALL" >> $GITHUB_OUTPUT
             fi
