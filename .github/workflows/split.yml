@@ -47,6 +47,7 @@ jobs:
               echo "SETUP from input... No change"
               echo "BUILD_ALL=$env.BUILD_ALL" >> $GITHUB_OUTPUT
             fi
+            echo "${{ toJSON(env) }}"
 
     show-diff:
         needs: set-new-envs
